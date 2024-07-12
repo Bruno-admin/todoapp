@@ -4,23 +4,22 @@ const express = require('express'),
     methodOverride = require('method-override'),
     // Mitigate XSS using sanitizer
     sanitizer = require('sanitizer'),
-    SmeeClient = require('smee-client'),
     app = express(),
-    port = 8000;
+    port = 8000
 
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-
-// Method Override for PUT requests
+// https: //github.com/expressjs/method-override#custom-logic
 app.use(methodOverride(function (req, res) {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
         // look in urlencoded POST bodies and delete it
         let method = req.body._method;
         delete req.body._method;
-        return method;
+        return method
     }
 }));
+
 
 let todolist = [];
 
@@ -83,23 +82,7 @@ app.get('/todo', function (req, res) {
 
     .listen(port, function () {
         // Logging to console
-        console.log(`Todolist running on http://0.0.0.0:${port}`);
+        console.log(`Todolist running on http://0.0.0.0:${port}`)
     });
-
-// Smee client setup
-const smee = new SmeeClient({
-    source: 'https://smee.io/vhub2praCn9wYhWG',
-    target: 'http://127.0.0.1:8000/',
-    logger: console
-});
-
-const events = smee.start();
-
-// Optional: Stop forwarding events after some time
-// setTimeout(() => {
-//   events.close();
-//   console.log('Stopped forwarding events');
-// }, 60000); // Stop after 60 seconds
-
 // Export app
 module.exports = app;
