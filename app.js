@@ -89,7 +89,7 @@ app.get('/todo', function (req, res) {
 // Smee client setup
 const smee = new SmeeClient({
     source: 'https://smee.io/vhub2praCn9wYhWG',
-    target: 'http://127.0.0.1:8000/',
+    target: 'http://127.0.0.1:8000/todo',
     logger: console
 });
 
